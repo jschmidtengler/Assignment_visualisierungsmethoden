@@ -101,49 +101,56 @@ AnzahlDominosteine
 %1
 domino1=dominoscharbinaer(458:489,392:425);
 domino1=padarray(domino1,[384 583]);
-% domino1t=Reduzieren(Korrelation(domino1,domino1),200);
 
 %6
 domino6=rotateImage(dominoscharbinaer(517:674,306:455),9,'linear');
 domino6=domino6(23:132,27:136);
 domino6=padarray(domino6,[345 545]);
-% domino6=Reduzieren(Korrelation(domino6,domino1),200);
 domino6=TemplateList(domino6,'linear',1,0,179);
 
 %5
 domino5=rotateImage(dominoscharbinaer(50:385,390:709),122,'linear');
 domino5=domino5(109:222,174:285);
 domino5=padarray(domino5,[343 544]);
-% domino5=Reduzieren(Korrelation(domino5,domino1),200);
 domino5=TemplateList(domino5,'linear',1,0,89);
 
 %4
-template3und4=rotateImage(dominoscharbinaer(58:355,764:1020),117,'linear');
-domino4=template3und4(88:199,141:252);
-domino4=padarray(domino4,[344 544]);
-% domino4=Reduzieren(Korrelation(domino4,domino1),200);
-domino4=TemplateList(domino4,'linear',1,0,89);
+domino4=rotateImage(dominoscharbinaer(50:385,390:709),122,'linear');
+domino4=domino4(111:220,174:283);
+maxima=[56 57];
+Length = size(domino4,1);
+Width = size(domino4,2);
+for m=1:2:size(maxima,2)
+    for x=1:1:Length
+        for y=1:1:Width
+            if (x-maxima(m))^2 + (y-maxima(m+1))^2 < 20^2;
+                domino4(x,y)=0;
+            end
+        end
+    end
+end
+domino4=padarray(domino4,[345 545]);
+domino4=TemplateList(domino4,'linear',0.5,0,89.5);
 
 %3
-domino3=template3und4(87:202,14:125);
+template3=rotateImage(dominoscharbinaer(58:355,764:1020),117,'linear');
+domino3=template3(87:202,14:125);
 domino3=padarray(domino3,[342 544]);
-% domino3=Reduzieren(Korrelation(domino3,domino1),200);
 domino3=TemplateList(domino3,'linear',1,0,179);
 
 %2
 template2=rotateImage(dominoscharbinaer(451:641,520:711),44,'linear');
 domino2=template2(40:149,54:163);
 domino2=padarray(domino2,[345 545]);
-% domino2=Reduzieren(Korrelation(domino2,domino1),200);
 domino2=TemplateList(domino2,'linear',1,0,179);
 
 %%
 %Augenzahlen zählen
 
 % templateaugen=Reduzieren(Korrelation(domino1,dominoscharbinaer),190);
-ergebnis=zeros(3200,4800);
-for w=1:1:90
-    korr=Korrelation(domino5{w},dominoscharbinaer);
+ergebnis=zeros(1600,2400);
+for w=1:1:180
+    korr=Korrelation(domino2{w},Anzahl3er{2});
     Length = size(korr,1);
     Width = size(korr,2);
     for x=1:1:Length;
@@ -156,24 +163,23 @@ for w=1:1:90
 end
 
 %%
-%Zählbeispiel anhand von 5ern
-
-output=zeros(1600,2400);
-for w=1:1:90
-    korr=Korrelation(domino5{w},dominoscharbinaer);
-    Length = size(korr,1);
-    Width = size(korr,2);
-    for x=1:1:Length;
-        for y=1:1:Width;
-            if korr(x,y)>600;
-                output(x,y)=korr(x,y);
-            end
-        end
-    end
-end
-
-output=flipdim(flipdim(output ,1),2);
-output=output(400:1199,600:1799);
-Anzahl5er=Counter(output);
-dominoscharbinaer=cutAugen(output,dominoscharbinaer);
+dominoscharbinaer2=dominoscharbinaer;
+%6er
+Anzahl6er=counterAugen(domino6,180,dominoscharbinaer2,700);
+Anzahl6er{1}
+%5er
+Anzahl5er=counterAugen(domino5,90,Anzahl6er{2},620);
+Anzahl5er{1}
+%3er
+Anzahl3er=counterAugen(domino3,180,Anzahl5er{2},355);
+Anzahl3er{1}
+%4er
+Anzahl4er=counterAugen(domino4,180,Anzahl3er{2},335);
+Anzahl4er{1}
+%2er
+Anzahl2er=counterAugen(domino2,180,Anzahl3er{2},340);
+Anzahl2er{1}
+%1er
+Anzahl1er=counterAugen(domino1,1,Anzahl2er{2},355);
+Anzahl1er{1}
 
