@@ -1,0 +1,143 @@
+%Dateien
+
+Bild1 = imread('DominoMuehle1.JPG');
+Bild2 = imread('DominoMuehle2.JPG');
+Bild3 = imread('DominoMuehle3.JPG');
+Bild4 = imread('DominoMuehle4.JPG');
+Bild5 = imread('DominoMuehle5.JPG');
+
+%Aufgabe 1
+
+% bild1 = (Bild1(:,:,1) + Bild1(:,:,2) + Bild1(:,:,3)) ./ 3;
+% bild2 = (Bild2(:,:,1) + Bild2(:,:,2) + Bild2(:,:,3)) ./ 3;
+% bild3 = (Bild3(:,:,1) + Bild3(:,:,2) + Bild3(:,:,3)) ./ 3;
+% bild4 = (Bild4(:,:,1) + Bild4(:,:,2) + Bild4(:,:,3)) ./ 3;
+% bild5 = (Bild5(:,:,1) + Bild5(:,:,2) + Bild5(:,:,3)) ./ 3;
+
+% Festlegung eines Schwellwerts
+
+figure(1)
+Histogramm(Bild1);
+figure(2)
+Histogramm(Bild2);
+figure(3)
+Histogramm(Bild3);
+figure(4)
+Histogramm(Bild4);
+figure(5)
+Histogramm(Bild5);
+
+
+% Maske für die notwendige Dilatation und Erosion
+mask = [1 1 1; 1 1 1; 1 1 1];
+
+
+binaer1 = Binarisierung(Bild1,55);
+figure(1)
+subplot(1,3,1)
+imagesc(Bild1);axis image; colormap(gray);
+subplot(1,3,2)
+imagesc(binaer1);axis image; colormap(gray);
+subplot(1,3,3)
+a=Dilatation(mask,Erosion(mask,binaer1));
+imagesc(Dilatation(mask,Erosion(mask,a))) ;axis image; colormap(gray);
+
+binaer2 = Binarisierung(Bild2,50);
+figure(2)
+subplot(1,2,1)
+imagesc(Bild2);axis image; colormap(gray);
+subplot(1,2,2)
+imagesc(binaer2);axis image; colormap(gray);
+
+binaer3 = Binarisierung(Bild3,45);
+figure(3)
+subplot(1,2,1)
+imagesc(Bild3);axis image; colormap(gray);
+subplot(1,2,2)
+imagesc(binaer3);axis image; colormap(gray);
+
+binaer4 = Binarisierung(Bild4,55);
+figure(4)
+subplot(1,2,1)
+imagesc(Bild4);axis image; colormap(gray);
+subplot(1,2,2)
+imagesc(binaer4);axis image; colormap(gray);
+
+binaer5 = Binarisierung(Bild5,60);
+figure(5)
+subplot(1,3,1)
+imagesc(Bild5);axis image; colormap(gray);
+subplot(1,3,2)
+imagesc(binaer5);axis image; colormap(gray);
+subplot(1,3,3)
+a=Dilatation(mask,Erosion(mask,Binarisierung(Bild5,70)));
+imagesc(Dilatation(mask,Erosion(mask,a))) ;axis image; colormap(gray);
+
+
+
+
+%Aufgabe 2
+
+
+
+Muehle=ones(800,1200);
+
+for x=1:1:800
+    for y=1:1:1200
+        if (x-400)^2 + (y-600)^2 >= 66^2;
+            Muehle(x,y)=0;
+        end
+   end
+end
+
+% Muehlenstein = zeros(134);
+% 
+% Muehlenstein = Muehle(410-67:410+67, 278-67:278+67);
+% Muehlenstein = padarray(Muehlenstein,[400-67,600-67],0);
+
+figure(6)
+imagesc(Muehle); axis image; colormap(gray);
+Muehlenstein=Muehle;
+
+a=Korrelation(binaer1,Muehlenstein);
+a=a(401:1200,601:1800);
+figure(7)
+imagesc(a); axis image
+
+b=Korrelation(binaer2,Muehlenstein);
+b=b(401:1200,601:1800);
+figure(8)
+imagesc(b); axis image
+
+c=Korrelation(binaer3,Muehlenstein);
+c=c(401:1200,601:1800);
+figure(9)
+imagesc(c); axis image
+
+d=Korrelation(binaer4,Muehlenstein);
+d=d(401:1200,601:1800);
+figure(10)
+imagesc(d); axis image
+
+e=Korrelation(binaer5,Muehlenstein);
+e=e(401:1200,601:1800);
+figure(11)
+imagesc(e); axis image
+
+
+figure(12)
+imagesc(Reduzieren(a));
+
+
+figure(13)
+imagesc(DominoDelete(Reduzieren(a)));
+
+SearchMax(DominoDelete(Reduzieren(a)))
+
+
+figure
+imagesc(Grad2(binaer2)); axis image;colormap(gray);
+
+figure
+imagesc(Binarisierung2(Grad2(cutMuehle(b,binaer2)),1));axis image;
+
