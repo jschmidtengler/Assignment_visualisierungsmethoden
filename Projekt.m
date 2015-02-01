@@ -154,7 +154,3 @@ templateaugen=Reduzieren(Korrelation(domino1,dominoscharbinaer),190);
 %         end
 %     end
 % end
-
-
-%%
-%ein bisschen quatsch
