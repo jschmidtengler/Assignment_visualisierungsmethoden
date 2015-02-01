@@ -141,22 +141,39 @@ domino2=TemplateList(domino2,'linear',1,0,179);
 %Augenzahlen zählen
 
 % templateaugen=Reduzieren(Korrelation(domino1,dominoscharbinaer),190);
-% ergebnis=zeros(3200,4800);
-% for w=1:1:90
-%     korr=Korrelation(domino5{w},dominoscharbinaer);
-%     Length = size(korr,1);
-%     Width = size(korr,2);
-%     for x=1:1:Length;
-%         for y=1:1:Width;
-%             if korr(x,y)>1;
-%                 ergebnis(x,y)=korr(x,y);
-%             end
-%         end
-%     end
-% end
+ergebnis=zeros(3200,4800);
+for w=1:1:90
+    korr=Korrelation(domino5{w},dominoscharbinaer);
+    Length = size(korr,1);
+    Width = size(korr,2);
+    for x=1:1:Length;
+        for y=1:1:Width;
+            if korr(x,y)>1;
+                ergebnis(x,y)=korr(x,y);
+            end
+        end
+    end
+end
 
 %%
-%doppeltes spiegeln des korrelationsbildes
+%Zählbeispiel anhand von 5ern
+
+output=zeros(1600,2400);
+for w=1:1:90
+    korr=Korrelation(domino5{w},dominoscharbinaer);
+    Length = size(korr,1);
+    Width = size(korr,2);
+    for x=1:1:Length;
+        for y=1:1:Width;
+            if korr(x,y)>600;
+                output(x,y)=korr(x,y);
+            end
+        end
+    end
+end
+
 output=flipdim(flipdim(output ,1),2);
 output=output(400:1199,600:1799);
+Anzahl5er=Counter(output);
+dominoscharbinaer=cutAugen(output,dominoscharbinaer);
 
