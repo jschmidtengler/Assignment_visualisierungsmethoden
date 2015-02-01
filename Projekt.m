@@ -101,6 +101,7 @@ AnzahlDominosteine
 %1
 domino1=dominoscharbinaer(458:489,392:425);
 domino1=padarray(domino1,[384 583]);
+domino1=TemplateList(domino1,'linear',1,0,1);
 
 %6
 domino6=rotateImage(dominoscharbinaer(517:674,306:455),9,'linear');
@@ -145,12 +146,12 @@ domino2=padarray(domino2,[345 545]);
 domino2=TemplateList(domino2,'linear',1,0,179);
 
 %%
-%Augenzahlen zählen
+%Augenzahlen zählen testloop
 
 % templateaugen=Reduzieren(Korrelation(domino1,dominoscharbinaer),190);
 ergebnis=zeros(1600,2400);
-for w=1:1:180
-    korr=Korrelation(domino2{w},Anzahl3er{2});
+for w=1:1:1
+    korr=Korrelation(domino1{w},Anzahl3er{2});
     Length = size(korr,1);
     Width = size(korr,2);
     for x=1:1:Length;
@@ -180,6 +181,6 @@ Anzahl4er{1}
 Anzahl2er=counterAugen(domino2,180,Anzahl3er{2},340);
 Anzahl2er{1}
 %1er
-Anzahl1er=counterAugen(domino1,1,Anzahl2er{2},355);
+Anzahl1er=counterAugen(domino1,1,Anzahl3er{2},250);
 Anzahl1er{1}
 
