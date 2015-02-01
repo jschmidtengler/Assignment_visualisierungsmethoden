@@ -141,16 +141,16 @@ domino2=TemplateList(domino2,'linear',1,0,179);
 %Augenzahlen zählen
 
 templateaugen=Reduzieren(Korrelation(domino1,dominoscharbinaer),190);
-% ergebnis=zeros(3200,4800);
-% for w=1:1:90
-%     korr=Korrelation(domino4{w},templateaugen);
-%     Length = size(korr,1);
-%     Width = size(korr,2);
-%     for x=1:1:Length;
-%         for y=1:1:Width;
-%             if korr(x,y)>1;
-%                 ergebnis(x,y)=korr(x,y);
-%             end
-%         end
-%     end
-% end
+ergebnis=zeros(3200,4800);
+for w=1:1:90
+    korr=Korrelation(domino5{w},templateaugen);
+    Length = size(korr,1);
+    Width = size(korr,2);
+    for x=1:1:Length;
+        for y=1:1:Width;
+            if korr(x,y)>1;
+                ergebnis(x,y)=korr(x,y);
+            end
+        end
+    end
+end
