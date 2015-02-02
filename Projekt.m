@@ -68,7 +68,7 @@ for w=1:1:180
     Width = size(korr,2);
     for x=1:1:Length;
         for y=1:1:Width;
-            if korr(x,y)>2000;
+            if korr(x,y)>2200;
                 ergebnis(x,y)=korr(x,y);
             end
         end
