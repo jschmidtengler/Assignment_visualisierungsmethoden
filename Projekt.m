@@ -29,15 +29,15 @@ Muehlenstein=Muehle;
 %Mühlestein korrelieren und zählen
 
 a=Korrelation(binaer1,Muehlenstein);
-a=a(401:1200,601:1800);
+% a=a(401:1200,601:1800);
 b=Korrelation(binaer2,Muehlenstein);
-b=b(401:1200,601:1800);
+% b=b(401:1200,601:1800);
 c=Korrelation(binaer3,Muehlenstein);
-c=c(401:1200,601:1800);
+% c=c(401:1200,601:1800);
 d=Korrelation(binaer4,Muehlenstein);
-d=d(401:1200,601:1800);
+% d=d(401:1200,601:1800);
 e=Korrelation(binaer5,Muehlenstein);
-e=e(401:1200,601:1800);
+% e=e(401:1200,601:1800);
 
 MuehlesteineBild1=Counter(a,12800)
 MuehlesteineBild2=Counter(b,12800)
@@ -66,7 +66,7 @@ dominotemp=padarray(dominosteinklein,[232 440]);
 %Dominostein in allen Orientierungen erstellen und Korrelieren.
 
 dominosteineAlleWinkel=TemplateList(dominotemp,'linear',1,0,179);
-ergebnis=zeros(1600,2400);
+ergebnis=zeros(800,1200);
 for w=1:1:180
     korr=Korrelation(dominosteineAlleWinkel{w},dominoscharbinaer);
     Length = size(korr,1);
@@ -117,8 +117,8 @@ domino5=TemplateList(domino5,'linear',1,0,89);
 
 %4
 domino4=rotateImage(dominoscharbinaer(50:385,390:709),122,'linear');
-domino4=domino4(111:220,174:283);
-maxima=[56 57];
+domino4=domino4(110:221,174:283);
+maxima=[56 57 17 18];
 Length = size(domino4,1);
 Width = size(domino4,2);
 for m=1:2:size(maxima,2)
@@ -130,8 +130,8 @@ for m=1:2:size(maxima,2)
         end
     end
 end
-domino4=padarray(domino4,[345 545]);
-domino4=TemplateList(domino4,'linear',0.5,0,89.5);
+domino4=padarray(domino4,[344 545]);
+domino4=TemplateList(domino4,'linear',1,0,179);
 
 %3
 template3=rotateImage(dominoscharbinaer(58:355,764:1020),117,'linear');
@@ -149,38 +149,30 @@ domino2=TemplateList(domino2,'linear',1,0,179);
 %Augenzahlen zählen testloop
 
 % templateaugen=Reduzieren(Korrelation(domino1,dominoscharbinaer),190);
-ergebnis=zeros(1600,2400);
-for w=1:1:1
-    korr=Korrelation(domino1{w},Anzahl3er{2});
-    Length = size(korr,1);
-    Width = size(korr,2);
-    for x=1:1:Length;
-        for y=1:1:Width;
-            if korr(x,y)>1;
-                ergebnis(x,y)=korr(x,y);
-            end
-        end
-    end
+ergebnis=zeros(800,1200);
+for w=1:1:180
+    korr=Korrelation(domino6{w},dominoscharbinaer2);
+    ergebnis=korr+ergebnis;
 end
 
 %%
-dominoscharbinaer2=dominoscharbinaer;
+dominoscharbinaer2=Reduzieren(Korrelation(domino1,dominoscharbinaer),190);
 %6er
-Anzahl6er=counterAugen(domino6,180,dominoscharbinaer2,700);
+Anzahl6er=counterAugen(domino6,180,dominoscharbinaer2,0.99);
 Anzahl6er{1}
 %5er
-Anzahl5er=counterAugen(domino5,90,Anzahl6er{2},620);
+Anzahl5er=counterAugen(domino5,90,Anzahl6er{2},0.98);
 Anzahl5er{1}
 %3er
-Anzahl3er=counterAugen(domino3,180,Anzahl5er{2},355);
+Anzahl3er=counterAugen(domino3,180,Anzahl5er{2},0.98);
 Anzahl3er{1}
 %4er
-Anzahl4er=counterAugen(domino4,180,Anzahl3er{2},335);
+Anzahl4er=counterAugen(domino4,180,Anzahl3er{2},0.99);
 Anzahl4er{1}
 %2er
-Anzahl2er=counterAugen(domino2,180,Anzahl3er{2},340);
+Anzahl2er=counterAugen(domino2,180,Anzahl4er{2},0.98);
 Anzahl2er{1}
 %1er
-Anzahl1er=counterAugen(domino1,1,Anzahl3er{2},250);
+Anzahl1er=counterAugen(domino1,1,Anzahl2er{2},0.99);
 Anzahl1er{1}
 
