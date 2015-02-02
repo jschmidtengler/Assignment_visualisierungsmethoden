@@ -13,26 +13,27 @@ binaer4 = Binarisierung(Bild4,55);
 binaer5 = Binarisierung(Bild5,60);
 %%
 %Mühlestein erstellen
-
-Muehle=ones(800,1200);
-
-for x=1:1:800
-    for y=1:1:1200
-        if (x-400)^2 + (y-600)^2 >= 66^2;
-            Muehle(x,y)=0;
-        end
-   end
-end
-
-Muehlenstein=Muehle;
+% Muehlenstein=ones(800,1200);
+% for x=1:1:800
+%     for y=1:1:1200
+%         if (x-400)^2 + (y-600)^2 >= 66^2;
+%             Muehlenstein(x,y)=0;
+%         end
+%    end
+% end
+load('./templates/muehlenstein.mat');
 %%
-%Mühlestein korrelieren und zählen
-
+%Mühlestein korrelieren und zählen.
 a=Korrelation(binaer1,Muehlenstein);
+%a=a(401:1200,601:1800);
 b=Korrelation(binaer2,Muehlenstein);
+%b=b(401:1200,601:1800);
 c=Korrelation(binaer3,Muehlenstein);
+%c=c(401:1200,601:1800);
 d=Korrelation(binaer4,Muehlenstein);
+%d=d(401:1200,601:1800);
 e=Korrelation(binaer5,Muehlenstein);
+%e=e(401:1200,601:1800);
 
 MuehlesteineBild1=Counter(a,12800)
 MuehlesteineBild2=Counter(b,12800)
@@ -41,45 +42,46 @@ MuehlesteineBild4=Counter(d,12800)
 MuehlesteineBild5=Counter(e,12800)
 %%
 %Dominotemplate erstellen
-
-dominoscharbinaer = Binarisierung2(Grad2(cutMuehle(e,binaer5)),1);
-dominosteinklein = dominoscharbinaer(50:385,390:709);
-maxima=[175,115,216,178,228,127,239,75,280,138];
-Length = size(dominosteinklein,1);
-Width = size(dominosteinklein,2);
-for m=1:2:size(maxima,2)
-    for x=1:1:Length
-        for y=1:1:Width
-            if (x-maxima(m))^2 + (y-maxima(m+1))^2 < 18^2;
-                dominosteinklein(x,y)=0;
-            end
-        end
-    end
-end
-dominotemp=padarray(dominosteinklein,[232 440]);
+%do not touch!!! template!!
+% dominoscharbinaer = Binarisierung2(Grad2(cutMuehle(b,binaer2)),1);
+% dominosteinklein = dominoscharbinaer(50:385,390:709);
+% maxima=[175,115,216,178,228,127,239,75,280,138];
+% Length = size(dominosteinklein,1);
+% Width = size(dominosteinklein,2);
+% for m=1:2:size(maxima,2)
+%     for x=1:1:Length
+%         for y=1:1:Width
+%             if (x-maxima(m))^2 + (y-maxima(m+1))^2 < 18^2;
+%                 dominosteinklein(x,y)=0;
+%             end
+%         end
+%     end
+% end
+% dominotemp=padarray(dominosteinklein,[232 440]);
+% %Dominostein in allen Orientierungen erstellen.
+% dominosteineAlleWinkel=TemplateList(dominotemp,'linear',2,0,178);
+load('./templates/dominosteineallewinkel');
 %%
-%Dominostein in allen Orientierungen erstellen und Korrelieren.
-
-% dominosteineAlleWinkel=TemplateList(dominotemp,'linear',1,0,179);
+%Dominosteine korrelieren und zählen.
+dominotest = Binarisierung2(Grad2(cutMuehle(e,binaer5)),1);
 ergebnis=zeros(800,1200);
-for w=1:1:180
-    korr=Korrelation(dominosteineAlleWinkel{w},dominoscharbinaer);
+for w=1:1:90
+    korr=Korrelation(dominosteineAlleWinkel{w},dominotest);
     Length = size(korr,1);
     Width = size(korr,2);
     for x=1:1:Length;
         for y=1:1:Width;
-            if korr(x,y)>2200;
+            if korr(x,y)>1700;
                 ergebnis(x,y)=korr(x,y);
             end
         end
     end
 end
-%%
-%Dominosteine zählen
+ergebnis=ergebnis./(max(max(ergebnis)));
+ergebnis2=Reduzieren(ergebnis,0.75);
 
 Length = size(ergebnis,1);
 Width = size(ergebnis,2);
-ergebnis2=ergebnis;
 AnzahlDominosteine = 0;
 for i=1:Length;
     for j=1:Width;
@@ -147,7 +149,7 @@ AnzahlDominosteine
 % drei(87:115,87:115)=kleinerkreis;
 % drei2=hilfsmatrix;
 % drei2(338:463,538:663)=drei;
-% domino3=TemplateList(drei2,'linear',2.5,0,177.2);
+% domino3=TemplateList(drei2,'linear',5,0,175);
 % 
 % %zwei
 % zwei=zeros(126,126);
@@ -171,21 +173,25 @@ AnzahlDominosteine
 % end
 % eins(386:414,586:614)=kleinerkreis2;
 % domino1=Binarisierung2(Grad2(eins),1);
-
+load('./templates/domino1');
+load('./templates/domino2');
+load('./templates/domino3');
+load('./templates/domino4');
+load('./templates/domino5');
+load('./templates/domino6');
 %%
 %Augenzahlen zählen
-
-dominoscharbinaer2=Reduzieren(Korrelation(domino1,dominoscharbinaer),200);
+augentest = Binarisierung2(Grad2(cutMuehle(b,binaer2)),1);
+augentest2=Reduzieren(Korrelation(domino1,augentest),200);
 %6er
 Anzahl6er=zeros(800,1200);
 for w=1:1:36
-    korr=Korrelation(domino6{w},dominoscharbinaer2);
+    korr=Korrelation(domino6{w},augentest2);
     Anzahl6er=korr+Anzahl6er;
 end
 Anzahl6er=flipdim(flipdim(Anzahl6er ,1),2);
-Anzahl6=Counter2(Anzahl6er./(max(max(Anzahl6er))),0.9);
-templateCount5=cutAugen(Reduzieren(Anzahl6er./(max(max(Anzahl6er))),0.9),dominoscharbinaer2);
-Anzahl6
+Anzahl6=Counter2(Anzahl6er./(max(max(Anzahl6er))),0.9)
+templateCount5=cutAugen(Reduzieren(Anzahl6er./(max(max(Anzahl6er))),0.9),augentest2);
 %5er
 Anzahl5er=zeros(800,1200);
 for w=1:1:18
@@ -193,9 +199,8 @@ for w=1:1:18
     Anzahl5er=korr+Anzahl5er;
 end
 Anzahl5er=flipdim(flipdim(Anzahl5er ,1),2);
-Anzahl5=Counter2(Anzahl5er./(max(max(Anzahl5er))),0.85);
-templateCount4=cutAugen(Reduzieren(Anzahl5er./(max(max(Anzahl5er))),0.85),templateCount5);
-Anzahl5
+Anzahl5=Counter2(Anzahl5er./(max(max(Anzahl5er))),0.97)
+templateCount4=cutAugen(Reduzieren(Anzahl5er./(max(max(Anzahl5er))),0.97),templateCount5);
 %4er
 Anzahl4er=zeros(800,1200);
 for w=1:1:18
@@ -203,19 +208,17 @@ for w=1:1:18
     Anzahl4er=korr+Anzahl4er;
 end
 Anzahl4er=flipdim(flipdim(Anzahl4er ,1),2);
-Anzahl4=Counter2(Anzahl4er./(max(max(Anzahl4er))),0.9);
+Anzahl4=Counter2(Anzahl4er./(max(max(Anzahl4er))),0.9)
 templateCount3=cutAugen(Reduzieren(Anzahl4er./(max(max(Anzahl4er))),0.9),templateCount4);
-Anzahl4
 %3er
 Anzahl3er=zeros(800,1200);
-for w=1:1:72
+for w=1:1:36
     korr=Korrelation(domino3{w},templateCount3);
     Anzahl3er=korr+Anzahl3er;
 end
 Anzahl3er=flipdim(flipdim(Anzahl3er ,1),2);
-Anzahl3=Counter2(Anzahl3er./(max(max(Anzahl3er))),0.97);
-templateCount2=cutAugen(Reduzieren(Anzahl3er./(max(max(Anzahl3er))),0.97),templateCount3);
-Anzahl3
+Anzahl3=Counter2(Anzahl3er./(max(max(Anzahl3er))),0.99)
+templateCount2=cutAugen(Reduzieren(Anzahl3er./(max(max(Anzahl3er))),0.99),templateCount3);
 %2er
 Anzahl2er=zeros(800,1200);
 for w=1:1:36
@@ -223,12 +226,10 @@ for w=1:1:36
     Anzahl2er=korr+Anzahl2er;
 end
 Anzahl2er=flipdim(flipdim(Anzahl2er ,1),2);
-Anzahl2=Counter2(Anzahl2er./(max(max(Anzahl2er))),0.85);
+Anzahl2=Counter2(Anzahl2er./(max(max(Anzahl2er))),0.85)
 templateCount1=cutAugen(Reduzieren(Anzahl2er./(max(max(Anzahl2er))),0.85),templateCount2);
-Anzahl2
 %1er
 Anzahl1er=zeros(800,1200);
 Anzahl1er=Korrelation(domino1,templateCount1);
 Anzahl1er=flipdim(flipdim(Anzahl2er ,1),2);
-Anzahl1=Counter2(Anzahl1er./(max(max(Anzahl1er))),0.95);
-Anzahl1
+Anzahl1=Counter2(Anzahl1er./(max(max(Anzahl1er))),0.95)
