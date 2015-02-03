@@ -77,7 +77,7 @@ for w=1:1:90
     Width = size(korr,2);
     subplot(1,2,1);
     imagesc(dominosteineAlleWinkel{w});
-    title('Current dominotemplate orientation');
+    title('Current dominotemplate orientation','FontSize', 24);
     pause(0.01);
     for x=1:1:Length;
         for y=1:1:Width;
@@ -85,7 +85,7 @@ for w=1:1:90
                 ergebnis(x,y)=korr(x,y);
                 subplot(1,2,2);
                 imagesc(ergebnis);
-                title('Sum of correlation');
+                title('Sum of correlation','FontSize', 24);
                 pause(0.0001);
             end
         end
@@ -193,7 +193,7 @@ maske2=ones(2,2);
 augentest2=dilatation(maske,Reduzieren(Korrelation(domino1,augentest),280));
 subplot(1,2,1);
 imagesc(flipdim(flipdim(augentest2 ,1),2));
-title('Template complete');
+title('Template complete','FontSize', 24);
 %5er
 Anzahl5er=zeros(800,1200);
 for w=1:1:18
@@ -201,7 +201,7 @@ for w=1:1:18
     Anzahl5er=korr+Anzahl5er;
     subplot(1,2,2);
     imagesc(Anzahl5er);
-    title('Sum of correlation 5');
+    title('Sum of correlation 5','FontSize', 24);
     pause(0.007);
 end
 Anzahl5er=flipdim(flipdim(Anzahl5er ,1),2);
@@ -209,7 +209,7 @@ Anzahl5=Counter2(Anzahl5er./(max(max(Anzahl5er))),0.98);
 templateCount6=cutAugen(Reduzieren(Anzahl5er./(max(max(Anzahl5er))),0.97),augentest2);
 subplot(1,2,1);
 imagesc(flipdim(flipdim(templateCount6 ,1),2));
-title('Template -5');
+title('Template -5','FontSize', 24);
 %6er
 Anzahl6er=zeros(800,1200);
 for w=1:1:36
@@ -217,7 +217,7 @@ for w=1:1:36
     Anzahl6er=korr+Anzahl6er;
     subplot(1,2,2);
     imagesc(Anzahl6er);
-    title('Sum of correlation 6');
+    title('Sum of correlation 6','FontSize', 24);
     pause(0.007);
 end
 Anzahl6er=flipdim(flipdim(Anzahl6er ,1),2);
@@ -225,7 +225,7 @@ Anzahl6=Counter2(Anzahl6er./(max(max(Anzahl6er))),0.9)
 templateCount3=cutAugen(Reduzieren(Anzahl6er./(max(max(Anzahl6er))),0.9),templateCount6);
 subplot(1,2,1);
 imagesc(flipdim(flipdim(templateCount3 ,1),2));
-title('Template -5,6');
+title('Template -5,6','FontSize', 24);
 Anzahl5
 %3er
 Anzahl3er=zeros(800,1200);
@@ -234,7 +234,7 @@ for w=1:1:36
     Anzahl3er=korr+Anzahl3er;
     subplot(1,2,2);
     imagesc(Anzahl3er);
-    title('Sum of correlation 3');
+    title('Sum of correlation 3','FontSize', 24);
     pause(0.01);
 end
 Anzahl3er=flipdim(flipdim(Anzahl3er ,1),2);
@@ -242,7 +242,7 @@ Anzahl3=Counter2(Anzahl3er./(max(max(Anzahl3er))),0.94)
 templateCount4=cutAugen(Reduzieren(Anzahl3er./(max(max(Anzahl3er))),0.94),templateCount3);
 subplot(1,2,1);
 imagesc(flipdim(flipdim(templateCount4 ,1),2));
-title('Template -3,5,6');
+title('Template -3,5,6','FontSize', 24);
 %4er
 Anzahl4er=zeros(800,1200);
 for w=1:1:18
@@ -250,7 +250,7 @@ for w=1:1:18
     Anzahl4er=korr+Anzahl4er;
     subplot(1,2,2);
     imagesc(Anzahl4er);
-    title('Sum of correlation 4');
+    title('Sum of correlation 4','FontSize', 24);
     pause(0.007);
 end
 Anzahl4er=flipdim(flipdim(Anzahl4er ,1),2);
@@ -258,7 +258,7 @@ Anzahl4=Counter2(Anzahl4er./(max(max(Anzahl4er))),0.97)
 templateCount2=cutAugen(Reduzieren(Anzahl4er./(max(max(Anzahl4er))),0.97),templateCount4);
 subplot(1,2,1);
 imagesc(flipdim(flipdim(templateCount2 ,1),2));
-title('Template -3,4,5,6');
+title('Template -3,4,5,6','FontSize', 24);
 %2er
 Anzahl2er=zeros(800,1200);
 for w=1:1:36
@@ -266,7 +266,7 @@ for w=1:1:36
     Anzahl2er=korr+Anzahl2er;
     subplot(1,2,2);
     imagesc(Anzahl2er);
-    title('Sum of correlation 2');
+    title('Sum of correlation 2','FontSize', 24);
     pause(0.01);
 end
 Anzahl2er=flipdim(flipdim(Anzahl2er ,1),2);
@@ -274,13 +274,13 @@ Anzahl2=Counter2(Anzahl2er./(max(max(Anzahl2er))),0.93)
 templateCount1=cutAugen(Reduzieren(Anzahl2er./(max(max(Anzahl2er))),0.93),templateCount2);
 subplot(1,2,1);
 imagesc(flipdim(flipdim(templateCount1 ,1),2));
-title('Template -2,3,4,5,6')
+title('Template -2,3,4,5,6','FontSize', 24)
 %1er
 Anzahl1er=zeros(800,1200);
 Anzahl1er=Korrelation(domino1,templateCount1);
 subplot(1,2,2);
 imagesc(Anzahl1er);
-title('Sum of correlation 1');
+title('Sum of correlation 1','FontSize', 24);
 pause(0.01);
 Anzahl1er=flipdim(flipdim(Anzahl2er ,1),2);
 Anzahl1=Counter2(Anzahl1er./(max(max(Anzahl1er))),0.95)
