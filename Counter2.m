@@ -9,7 +9,7 @@ for i=1:Length
     for j=1:Width
         if redBild(i,j)>0
             counter = counter+1;
-            redBild(i-50:i+50, j-50:j+50) = 0;
+            redBild(i-80:i+80, j-80:j+80) = 0;
         end
     end
 end
