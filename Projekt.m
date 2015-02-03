@@ -5,7 +5,11 @@ Bild2 = imread('./templates/DominoMuehle2.JPG');
 Bild3 = imread('./templates/DominoMuehle3.JPG');
 Bild4 = imread('./templates/DominoMuehle4.JPG');
 Bild5 = imread('./templates/DominoMuehle5.JPG');
-
+% imagesc(Histogramm(Bild1));
+% imagesc(Histogramm(Bild2));
+% imagesc(Histogramm(Bild3));
+% imagesc(Histogramm(Bild4));
+% imagesc(Histogramm(Bild5));
 binaer1 = Binarisierung(Bild1,55);
 binaer2 = Binarisierung(Bild2,50);
 binaer3 = Binarisierung(Bild3,45);
@@ -69,10 +73,19 @@ MuehlesteineBild5=Counter(e,12800)
 load('./templates/dominosteineallewinkel');
 %%
 %Dominosteine korrelieren und zählen.
-dominotest = Binarisierung2(Grad2(cutMuehle(a,binaer1)),1);
+% dominotest1 = Binarisierung2(Grad2(cutMuehle(a,binaer1)),1);
+% dominotest2 = Binarisierung2(Grad2(cutMuehle(b,binaer2)),1);
+% dominotest3 = Binarisierung2(Grad2(cutMuehle(c,binaer3)),1);
+% dominotest4 = Binarisierung2(Grad2(cutMuehle(d,binaer4)),1);
+% dominotest5 = Binarisierung2(Grad2(cutMuehle(e,binaer5)),1);
+load('./templates/dominotest1');
+load('./templates/dominotest2');
+load('./templates/dominotest3');
+load('./templates/dominotest4');
+load('./templates/dominotest5');
 ergebnis=zeros(800,1200);
 for w=1:1:90
-    korr=Korrelation(dominosteineAlleWinkel{w},dominotest);
+    korr=Korrelation(dominosteineAlleWinkel{w},dominotest1);
     Length = size(korr,1);
     Width = size(korr,2);
     subplot(1,2,1);
@@ -187,17 +200,24 @@ load('./templates/domino6');
 %%
 %Augenzahlen zählen
 maske=ones(5,5);
-augentest=double(dilatation(maske,erosion(maske,binaer5)));
-augentest = Grad2(cutMuehle(e,augentest));
-maske2=ones(2,2);
-augentest2=dilatation(maske,Reduzieren(Korrelation(domino1,augentest),280));
+maske2=ones(3,3);
+% augentest1=double(dilatation(maske2,Reduzieren(Korrelation(domino1,Grad2(cutMuehle(a,double(dilatation(maske,erosion(maske,binaer1)))))),280)));
+% augentest2=double(dilatation(maske2,Reduzieren(Korrelation(domino1,Grad2(cutMuehle(b,double(dilatation(maske,erosion(maske,binaer2)))))),280)));
+% augentest3=double(dilatation(maske2,Reduzieren(Korrelation(domino1,Grad2(cutMuehle(c,double(dilatation(maske,erosion(maske,binaer3)))))),280)));
+% augentest4=double(dilatation(maske2,Reduzieren(Korrelation(domino1,Grad2(cutMuehle(d,double(dilatation(maske,erosion(maske,binaer4)))))),280)));
+% augentest5=double(dilatation(maske2,Reduzieren(Korrelation(domino1,Grad2(cutMuehle(e,double(dilatation(maske,erosion(maske,binaer5)))))),280)));
+load('./templates/augentest1');
+load('./templates/augentest2');
+load('./templates/augentest3');
+load('./templates/augentest4');
+load('./templates/augentest5');
 subplot(1,2,1);
-imagesc(flipdim(flipdim(augentest2 ,1),2));
+imagesc(flipdim(flipdim(augentest1 ,1),2));
 title('Template complete','FontSize', 24);
 %5er
 Anzahl5er=zeros(800,1200);
 for w=1:1:18
-    korr=Korrelation(domino5{w},augentest2);
+    korr=Korrelation(domino5{w},augentest1);
     Anzahl5er=korr+Anzahl5er;
     subplot(1,2,2);
     imagesc(Anzahl5er);
